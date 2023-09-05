@@ -1,0 +1,38 @@
+nav {
+    background-color: tomato;
+    padding: 1rem;
+    display: flex;
+
+}
+
+nav a {
+    color: antiquewhite;
+    padding: 1px;
+}
+
+div {
+    font-family: 'Courier New', Courier, monospace;
+    height: 100px;
+    width: 100%;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    padding: 10px;
+    justify-content: center;
+    text-align: center;
+}
+
+.selected {
+    border: solid 2px antiquewhite;
+}
+
+@media (max-width: 500px){
+    nav {
+        flex-direction: column;
+    }
+}
+
+#detail > div {
+    height: 100vh;
+    background-size: cover;
+    display: flex;
+}
