@@ -1,4 +1,31 @@
-const ul = document.querySelector('ul');
+const nav = document.querySelector('nav');
+const detail = document.querySelector('#detail');
+console.log(detail);
+let doggos;
+
+const render = () => {
+    const hash = window.location.hash.slice(1) * 1;
+    const html = doggos.map(doggo => {
+        return `
+          <a href='#${doggo.id !== hash ? doggo.id : ''}' class='${doggo.id === hash ? 'selected' : ''}'>
+                    ${doggo.name}
+                </a>
+        `;
+    }).join('');
+    nav.innerHTML = html;
+
+    const doggo = doggos.find(dog => dog.id === hash);
+
+    let detailHtml = '';
+    if (doggo) {
+        detailHtml = `
+            ${doggo.breed}
+            <div style='background-image:url(${doggo.imageUrl})'>
+            </div>
+        `;
+    }
+    detail.innerHTML = detailHtml;
+};
 
 const fetchDoggos = async () => {
     try {
@@ -6,18 +33,21 @@ const fetchDoggos = async () => {
         const json = await response.json();
         doggos = json.data.players;
 
+        render();
+
+        const hash = window.location.hash.slice(1) * 1;
+
         if (json.success && Array.isArray(doggos)) {
             const html = doggos.map(doggo => {
                 return `
-                <li>
-                <a href='${doggo.name}'>
-                <p>Doggo Name${doggo.name}</p>:
-                ${doggo.breed}
-                </a>
-                </li>
+                <nav>
+                    <a href='#${doggo.id !== hash ? doggo.id : ''}' class='${doggo.id === hash ? 'selected' : ''}'>
+                        ${doggo.name}
+                    </a>
+                </nav>
                 `;
             }).join('');
-            ul.innerHTML = html;
+            nav.innerHTML = html;
 
             console.log(doggos);
         } else {
@@ -28,4 +58,9 @@ const fetchDoggos = async () => {
     }
 };
 
+window.addEventListener('hashchange', () => {
+    render();
+});
+
 fetchDoggos();
+
